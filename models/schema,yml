@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: int_oslo_bikes_quality
+    columns:
+
+      - name: started_at
+        tests:
+          - not_null
+
+      - name: ended_at
+        tests:
+          - not_null
+
+      - name: duration
+        tests:
+          - not_null
+
+      - name: start_station_id
+        tests:
+          - not_null
+
+      - name: end_station_id
+        tests:
+          - not_null

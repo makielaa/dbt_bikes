@@ -1,0 +1,8 @@
+name: 'oslo_bikes_project'
+models:
+  oslo_bikes_project:
+    staging:
+      +materialized: view
+
+    marts:
+      +materialized: table
