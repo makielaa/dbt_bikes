@@ -13,39 +13,38 @@ optional: Python (for future API integration)
 https://oslobysykkel.no/en/open-data (public datasets)
 
 Architecture
-    ┌─────────────────────────────┐
-    │  Oslo Bikes Data Sources    │
-    │  - CSV (monthly files)      │
-    │  - GBFS API (optional)      │
-    └──────────────┬──────────────┘
+ 
+      Oslo Bikes Data Sources    
+      - CSV (monthly files)      
+      - GBFS API (optional)      
+   
                    │
                    ▼
-    ┌─────────────────────────────┐
-    │  INGESTION LAYER            │
-    │  (Python scripts)           │
-    │  - read CSV / API           │
-    │  - load to Snowflake RAW    │
-    └──────────────┬──────────────┘
-                   │
+    
+      INGESTION LAYER            
+      (Python scripts)           
+      - read CSV / API           
+      - load to Snowflake RAW        
+                  
       (scheduled via GitHub Actions)
                    │
                    ▼
-    ┌─────────────────────────────┐
-    │  SNOWFLAKE (RAW LAYER)      │
-    └──────────────┬──────────────┘
+   
+      SNOWFLAKE (RAW LAYER) 
+      
                    │
                    ▼
-    ┌─────────────────────────────┐
-    │  DBT TRANSFORMATION LAYER   │
-    │  - staging models          │
-    │  - fact tables             │
-    │  - KPI / marts             │
-    └──────────────┬──────────────┘
+   
+     DBT TRANSFORMATION LAYER   
+     - staging models          
+     - fact tables             
+     - KPI / marts             
+    ┘
                    │
                    ▼
-    ┌─────────────────────────────┐
-    │  BI LAYER                   │
-    │  Power BI / dashboards      │
-    │  - usage patterns           │
-    │  - retention / peaks        │
-    └─────────────────────────────┘
+  
+      BI LAYER                   
+      Power BI / dashboards      
+      - usage patterns           
+      - retention / peaks        
+    
