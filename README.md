@@ -5,8 +5,11 @@ This project demonstrates a modern ETL pipeline using Snowflake and Power BI for
 
 # Tech Stack
 Snowflake
+
 SQL
+
 Power BI
+
 optional: Python (for future API integration)
 
 #Data Source
