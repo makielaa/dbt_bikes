@@ -1,0 +1,12 @@
+oslo_city_bikes:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: bzyexbi-oq9720
+      user: ANNMAK2019
+      password: Staropolanka123!@#
+      role: ACCOUNTADMIN
+      database: OSLO_CITY_BIKES
+      warehouse: COMPUTE_WH
+      schema: STAGE

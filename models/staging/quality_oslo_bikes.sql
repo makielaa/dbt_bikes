@@ -28,4 +28,5 @@ SELECT *,
         ELSE FALSE
     END AS is_valid
 
-FROM {{ ref('stg_oslo_bikes') }}
+FROM {{ ref('stg_oslo_bikes') }} 
+
