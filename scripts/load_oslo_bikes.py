@@ -2,7 +2,7 @@
 """
 Oslo City Bike → Snowflake loader
 
-version 2
+version 5
 ----------------------------------
 Dwa tryby:
   python load_oslo_bikes.py --backfill   # ładuje dane historyczne (2023-01 → poprzedni miesiąc)
