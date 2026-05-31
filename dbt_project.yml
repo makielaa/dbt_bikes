@@ -1,4 +1,4 @@
-name: 'oslo_bikes_project'
+name: "oslo_bikes_project"
 models:
   oslo_bikes_project:
     staging:
