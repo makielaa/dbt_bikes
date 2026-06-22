@@ -2,8 +2,8 @@ version: 2
 
 sources:
   - name: raw
-    database: oslo_db
-    schema: raw
+    database: oslo_city_bikes
+    schema: STAGE
 
     tables:
-      - name: oslo_bikes_raw
+      - name: bikes_stations
