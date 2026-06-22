@@ -4,6 +4,7 @@ sources:
   - name: raw
     database: oslo_city_bikes
     schema: STAGE
+    
 
     tables:
       - name: bikes_stations
