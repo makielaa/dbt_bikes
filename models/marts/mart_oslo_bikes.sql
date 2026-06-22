@@ -1,7 +1,15 @@
--- models/marts/mart_bike_trips.sql
-
 WITH source AS (
     SELECT * FROM {{ ref('stg_oslo_bikes') }}
+    WHERE started_at IS NOT NULL
+      AND ended_at IS NOT NULL
+      AND duration >= 0
+      AND ended_at >= started_at
+      AND start_station_id IS NOT NULL
+      AND end_station_id IS NOT NULL
+      AND start_station_latitude IS NOT NULL
+      AND start_station_longitude IS NOT NULL
+      AND end_station_latitude IS NOT NULL
+      AND end_station_longitude IS NOT NULL
 ),
 
 enriched AS (
@@ -77,3 +85,5 @@ final AS (
 )
 
 SELECT * FROM final
+
+
