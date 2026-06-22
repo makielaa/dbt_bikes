@@ -1,4 +1,3 @@
-=======
 """
 Oslo City Bike → Snowflake loader
 
@@ -206,4 +205,4 @@ def main():
 
 if __name__ == "__main__":
     main()
->>>>>>> dce879bd0af2f0c31062ef36cc7d1789031d921f
+
