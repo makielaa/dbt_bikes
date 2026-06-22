@@ -1,3 +1,5 @@
+{{ config(materialized='incremental', unique_key='trip_id') }}
+
 WITH source AS (
     SELECT * FROM {{ ref('stg_oslo_bikes') }}
     WHERE started_at IS NOT NULL
@@ -15,7 +17,7 @@ WITH source AS (
 enriched AS (
     SELECT
         -- === KLUCZE ===
-        {{ dbt_utils.generate_surrogate_key(['started_at', 'start_station_id', 'end_station_id']) }} AS trip_id,
+        {{ dbt_utils.generate_surrogate_key(['started_at', 'ended_at', 'start_station_id', 'end_station_id']) }} AS trip_id,
 
         -- trasa bez kierunku (A-B = B-A)
         LEAST(start_station_id, end_station_id) 
@@ -66,7 +68,8 @@ enriched AS (
             )
         )                                                                   AS distance_km,
 
-        processed_at
+        processed_at,
+        CURRENT_TIMESTAMP() AS added_at
 
     FROM source
 ),

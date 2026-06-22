@@ -12,6 +12,10 @@ SELECT
     end_station_description,
     end_station_latitude,
     end_station_longitude,
-    current_timestamp() as processed_at
+    current_timestamp() AS processed_at
 FROM {{ source('raw', 'bikes_stations') }}
+QUALIFY ROW_NUMBER() OVER (
+    PARTITION BY started_at, ended_at, start_station_id, end_station_id
+    ORDER BY started_at
+) = 1
 
