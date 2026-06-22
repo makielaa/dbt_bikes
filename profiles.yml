@@ -5,8 +5,8 @@ oslo_city_bikes:
       type: snowflake
       account: bzyexbi-oq9720
       user: ANNMAK2019
-      password: Staropolanka123!@#
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: ACCOUNTADMIN
       database: OSLO_CITY_BIKES
       warehouse: COMPUTE_WH
-      schema: STAGE
+      schema: DBT_DEV
