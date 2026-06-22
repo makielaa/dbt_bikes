@@ -1,8 +1,21 @@
-name: "oslo_bikes_project"
+name: 'oslo_bikes_project'
+version: '1.0.0'
+config-version: 2
+
+profile: 'oslo_bikes_project'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
 models:
   oslo_bikes_project:
     staging:
       +materialized: view
-
+    intermediate:
+      +materialized: table
     marts:
       +materialized: table
