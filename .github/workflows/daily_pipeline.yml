@@ -1,0 +1,39 @@
+name: Daily Oslo Bikes Pipeline
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # codziennie o 5:00 UTC (6:00 polskiego czasu)
+  workflow_dispatch:      # możliwość ręcznego odpalenia
+
+jobs:
+  run_pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install snowflake-connector-python requests python-dateutil
+
+      - name: Run Python loader
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+        run: |
+          python load_oslo_bikes.py
+
+      - name: Trigger dbt Cloud job
+        run: |
+          curl -X POST \
+          -H "Authorization: Token ${{ secrets.DBT_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -d '{"cause": "Triggered by GitHub Actions"}' \
+          https://na395.us1.dbt.com/api/v2/accounts/70471823522583/jobs/70471823616025/run/
