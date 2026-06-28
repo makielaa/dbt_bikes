@@ -10,6 +10,7 @@ Dwa tryby:
 import snowflake.connector
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.backends import default_backend
+from datetime import datetime, date
 import os
 
 private_key_str = os.getenv("SNOWFLAKE_PRIVATE_KEY")
