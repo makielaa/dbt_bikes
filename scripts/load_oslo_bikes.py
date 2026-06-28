@@ -7,24 +7,30 @@ Dwa tryby:
   python load_oslo_bikes.py --backfill   # ładuje dane historyczne (2023-01 → poprzedni miesiąc)
   python load_oslo_bikes.py              # ładuje tylko kolejny brakujący miesiąc (tryb automatyczny)
 """
-
 import snowflake.connector
-import requests
-import csv
-import io
-import argparse
-from datetime import datetime, date
-from dateutil.relativedelta import relativedelta
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.backends import default_backend
 import os
 
-# ── Konfiguracja Snowflake ──────────────────────────────────────────────────
+private_key_str = os.getenv("SNOWFLAKE_PRIVATE_KEY")
+private_key = serialization.load_pem_private_key(
+    private_key_str.encode(),
+    password=None,
+    backend=default_backend()
+)
+private_key_bytes = private_key.private_bytes(
+    encoding=serialization.Encoding.DER,
+    format=serialization.PrivateFormat.PKCS8,
+    encryption_algorithm=serialization.NoEncryption()
+)
+
 SNOWFLAKE_CONFIG = {
-    "account":   os.getenv("SNOWFLAKE_ACCOUNT",   "BZYEXBI-OQ97203"),
-    "user":      os.getenv("SNOWFLAKE_USER",       "TWOJ_USER"),       # ← zmień lub ustaw env
-    "password":  os.getenv("SNOWFLAKE_PASSWORD",   ""),                 # ← nigdy nie wpisuj tu hasła!
+    "account":   os.getenv("SNOWFLAKE_ACCOUNT", "BZYEXBI-OQ97203"),
+    "user":      os.getenv("SNOWFLAKE_USER",    "dbt_automation"),
+    "private_key": private_key_bytes,
     "database":  "OSLO_CITY_BIKES",
     "schema":    "STAGE",
-    "warehouse": os.getenv("SNOWFLAKE_WAREHOUSE",  "COMPUTE_WH"),       # ← sprawdź nazwę w Snowflake
+    "warehouse": os.getenv("SNOWFLAKE_WAREHOUSE", "COMPUTE_WH"),
 }
 
 TABLE  = "BIKES_STATIONS"
