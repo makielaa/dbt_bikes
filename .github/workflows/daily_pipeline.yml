@@ -27,7 +27,7 @@ jobs:
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
         run: |
-          python load_oslo_bikes.py
+          python scripts load_oslo_bikes.py
 
       - name: Trigger dbt Cloud job
         run: |
