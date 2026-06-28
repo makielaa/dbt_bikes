@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: raw
-    database: oslo_city_bikes
+    database: OSLO_CITY_BIKES
     schema: STAGE
     
 
