@@ -10,9 +10,11 @@ Dwa tryby:
 import snowflake.connector
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.backends import default_backend
+from dateutil.relativedelta import relativedelta
 from datetime import datetime, date
 import os
 import argparse
+import requests
 
 private_key_str = os.getenv("SNOWFLAKE_PRIVATE_KEY")
 private_key = serialization.load_pem_private_key(
