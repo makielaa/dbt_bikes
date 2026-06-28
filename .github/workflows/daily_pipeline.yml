@@ -2,8 +2,8 @@ name: Daily Oslo Bikes Pipeline
 
 on:
   schedule:
-    - cron: '0 5 * * *'  # codziennie o 5:00 UTC (6:00 polskiego czasu)
-  workflow_dispatch:      # możliwość ręcznego odpalenia
+    - cron: '0 5 * * *'
+  workflow_dispatch:
 
 jobs:
   run_pipeline:
@@ -13,10 +13,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-     - name: Set up Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
       - name: Install dependencies
         run: |
           pip install snowflake-connector-python requests python-dateutil
@@ -27,7 +28,7 @@ jobs:
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
         run: |
-          python scripts load_oslo_bikes.py
+          python scripts/load_oslo_bikes.py
 
       - name: Trigger dbt Cloud job
         run: |
