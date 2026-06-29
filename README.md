@@ -49,6 +49,6 @@ models/
 ## Pipeline
 
 Runs automatically every day via GitHub Actions:
-1. Python script loads new month data to Snowflake
+1. Python script loads new month data to Snowflake (data updated daily at ublic monthly trip data)
 2. dbt build transforms and tests all models
 3. Power BI refresh (manual)
