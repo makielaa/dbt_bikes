@@ -51,6 +51,12 @@ enriched AS (
             WHEN EXTRACT(HOUR FROM started_at) BETWEEN 17 AND 21 THEN 'evening'
             ELSE 'night'
         END                                                                 AS time_of_day,
+        CASE
+            WHEN MONTH(started_at) IN (12, 1, 2) THEN 'winter'
+            WHEN MONTH(started_at) IN (3, 4, 5)  THEN 'spring'
+            WHEN MONTH(started_at) IN (6, 7, 8)  THEN 'summer'
+            WHEN MONTH(started_at) IN (9, 10, 11) THEN 'autumn'
+        END                                        AS season,
 
         -- === GEOGRAFIA ===
         CASE 
