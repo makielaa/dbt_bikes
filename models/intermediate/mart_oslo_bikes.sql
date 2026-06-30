@@ -57,6 +57,11 @@ enriched AS (
             WHEN start_station_id = end_station_id THEN TRUE 
             ELSE FALSE 
         END                                                                 AS is_round_trip,
+        CASE
+            WHEN is_weekend = FALSE AND time_of_day IN ('morning', 'evening') THEN 'commuter'
+            WHEN is_weekend = TRUE OR time_of_day = 'afternoon' THEN 'leisure'
+            ELSE 'mixed'
+        END                             AS trip_type,
 
         -- dystans haversine w km
         2 * 6371 * ASIN(
