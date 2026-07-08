@@ -37,4 +37,4 @@ jobs:
           -H "Authorization: Token ${{ secrets.DBT_API_TOKEN }}" \
           -H "Content-Type: application/json" \
           -d '{"cause": "Triggered by GitHub Actions"}' \
-          https://na395.us1.dbt.com/api/v2/accounts/70471823522583/jobs/70471823616025/run/
+          https://na395.us1.dbt.com/api/v2/accounts/70471823522583/jobs/70471823620655/run/
