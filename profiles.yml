@@ -5,8 +5,10 @@ oslo_city_bikes:
       type: snowflake
       account: bzyexbi-oq9720
       user: ANNMAK2019
-      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      authenticator: externalbrowser
       role: ACCOUNTADMIN
       database: OSLO_CITY_BIKES
       warehouse: COMPUTE_WH
       schema: DBT_DEV
+      threads: 4
+      client_session_keep_alive: False
