@@ -9,4 +9,4 @@ select
     is_returning::boolean               as is_returning,
     last_reported::timestamp_ntz        as last_reported_at,
     snapshot_at::timestamp_ntz          as snapshot_at
-from {{ source('oslo_city_bikes_stage', 'STATION_STATUS_SNAPSHOTS') }}
+from {{ source('raw', 'station_status_snapshots') }}
