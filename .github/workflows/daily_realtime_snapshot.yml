@@ -1,0 +1,32 @@
+name: Daily Oslo Bikes Realtime Snapshot
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+jobs:
+  run_snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install snowflake-connector-python requests
+      - name: Run realtime loader
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PRIVATE_KEY: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
+        run: |
+          python scripts/load_realtime_status.py
+      - name: Trigger dbt Cloud job
+        run: |
+          curl -X POST \
+          -H "Authorization: Token ${{ secrets.DBT_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -d '{"cause": "Triggered by GitHub Actions - realtime snapshot"}' \
+          https://na395.us1.dbt.com/api/v2/accounts/70471823522583/jobs/70471823620655/run/
