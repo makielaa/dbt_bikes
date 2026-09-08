@@ -1,7 +1,7 @@
 
 select
     s.station_id,
-    st.start_station_name,
+    st.start_station_name as station_name,
     s.bikes_available,
     s.docks_available,
     s.is_installed,
