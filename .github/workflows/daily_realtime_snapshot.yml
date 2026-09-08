@@ -22,7 +22,7 @@ jobs:
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PRIVATE_KEY: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
         run: |
-          python scripts/load_realtime_status.py
+          python scripts/load_oslo_bikes_realtime.py
       - name: Trigger dbt Cloud job
         run: |
           curl -X POST \
