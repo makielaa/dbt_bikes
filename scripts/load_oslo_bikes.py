@@ -15,6 +15,8 @@ from datetime import datetime, date
 import os
 import argparse
 import requests
+import io    # FIX 1: brakujący import — używany niżej w io.BytesIO()
+import sys   # FIX 2: potrzebny do sys.exit(1)
 
 private_key_str = os.getenv("SNOWFLAKE_PRIVATE_KEY")
 private_key = serialization.load_pem_private_key(
@@ -189,6 +191,7 @@ def run_monthly(conn):
         print(f"\n✅ Zaladowano {year}-{month:02d}")
     except Exception as e:
         print(f"\n✗ Blad: {e}")
+        sys.exit(1)  # FIX 2: bez tego GitHub Actions pokazuje "sukces" mimo błędu
 
 
 # ── Main ─────────────────────────────────────────────────────────────────────
