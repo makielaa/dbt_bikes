@@ -3,7 +3,7 @@
 {{
     config(
         materialized='incremental',
-        unique_key='station_id || snapshot_at'
+        unique_key=['station_id', 'snapshot_at']
     )
 }}
 
