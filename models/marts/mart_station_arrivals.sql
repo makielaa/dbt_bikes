@@ -1,17 +1,27 @@
 {{ config(materialized='table') }}
 
+WITH base AS (
+    SELECT
+        end_station_id          AS station_id,
+        end_station_name        AS station_name,
+        end_station_latitude    AS latitude,
+        end_station_longitude   AS longitude,
+        ended_at                AS event_at
+    FROM {{ ref('mart_oslo_bikes') }}
+    WHERE end_station_id IS NOT NULL
+)
+
 SELECT
-    end_station_id                       AS station_id,
-    MAX(end_station_name)                AS station_name,
-    MAX(end_station_latitude)            AS latitude,
-    MAX(end_station_longitude)           AS longitude,
-    YEAR(ended_at)                       AS year,
-    MONTH(ended_at)                      AS month_number,
-    TO_CHAR(ended_at, 'MMMM')            AS month_name,
-    DAYOFWEEKISO(ended_at)               AS day_of_week,
-    HOUR(ended_at)                       AS hour_of_day,
-    COUNT(*)                             AS arrivals
-FROM {{ ref('mart_oslo_bikes') }}
-WHERE end_station_id IS NOT NULL
+    station_id,
+    MAX(station_name)            AS station_name,
+    MAX(latitude)                AS latitude,
+    MAX(longitude)               AS longitude,
+    YEAR(event_at)               AS year,
+    MONTH(event_at)              AS month_number,
+    TO_CHAR(event_at, 'MMMM')    AS month_name,
+    DAYOFWEEKISO(event_at)       AS day_of_week,
+    HOUR(event_at)               AS hour_of_day,
+    COUNT(*)                     AS arrivals
+FROM base
 GROUP BY
-    end_station_id, year, month_number, month_name, day_of_week, hour_of_day
+    station_id, year, month_number, month_name, day_of_week, hour_of_day
