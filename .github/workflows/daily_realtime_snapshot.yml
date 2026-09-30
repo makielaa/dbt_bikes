@@ -25,7 +25,7 @@ jobs:
           python scripts/load_oslo_bikes_realtime.py
       - name: Trigger dbt Cloud job
         run: |
-          curl -X POST \
+          curl --fail-with-body -X POST \
           -H "Authorization: Token ${{ secrets.DBT_API_TOKEN }}" \
           -H "Content-Type: application/json" \
           -d '{"cause": "Triggered by GitHub Actions - realtime snapshot"}' \
