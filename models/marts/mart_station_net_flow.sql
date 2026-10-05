@@ -37,3 +37,4 @@ SELECT
 FROM unioned
 GROUP BY
     station_id, trip_date, year, month_number, month_name, day_of_week, hour_of_day
+    
