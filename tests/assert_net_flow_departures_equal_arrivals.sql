@@ -1,3 +1,5 @@
+
+-- suma odjazdów równa sumie przyjazdów
 SELECT
     SUM(departures) AS total_departures,
     SUM(arrivals)   AS total_arrivals
