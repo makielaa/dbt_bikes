@@ -1,37 +1,39 @@
--- models/marts/mart_station_availability.sql
+{{ config(materialized='table') }}
 
-{{
-    config(
-        materialized='incremental',
-        unique_key=['station_id', 'snapshot_at']
-    )
-}}
+WITH unioned AS (
+    SELECT
+        station_id, station_name, latitude, longitude,
+        trip_date,
+        year, month_number, month_name, day_of_week, hour_of_day,
+        departures,
+        0 AS arrivals
+    FROM {{ ref('mart_station_departures') }}
 
-select
-    s.station_id,
-    st.station_name,
-    s.bikes_available,
-    s.docks_available,
-    s.is_installed,
-    s.is_renting,
-    s.is_returning,
-    s.last_reported_at,
-    s.snapshot_at,
-    date(s.snapshot_at) as snapshot_date
-from {{ ref('stg_station_status') }} s
-left join (
-    select distinct
-        start_station_id as station_id,
-        start_station_name as station_name
-    from {{ ref('mart_oslo_bikes') }}
-) st
-    on s.station_id = st.station_id
+    UNION ALL
 
-{% if is_incremental() %}
-where s.snapshot_at > (select max(snapshot_at) from {{ this }})
-{% endif %}
+    SELECT
+        station_id, station_name, latitude, longitude,
+        trip_date,
+        year, month_number, month_name, day_of_week, hour_of_day,
+        0 AS departures,
+        arrivals
+    FROM {{ ref('mart_station_arrivals') }}
+)
 
-qualify row_number() over (
-    partition by s.station_id, s.snapshot_at
-    order by s.snapshot_at desc
-) = 1
+SELECT
+    station_id,
+    MAX(station_name)                   AS station_name,
+    MAX(latitude)                       AS latitude,
+    MAX(longitude)                      AS longitude,
+    trip_date,
+    year,
+    month_number,
+    month_name,
+    day_of_week,
+    hour_of_day,
+    SUM(departures)                     AS departures,
+    SUM(arrivals)                       AS arrivals,
+    SUM(arrivals) - SUM(departures)     AS net_flow   -- >0 nadwyżka rowerów, <0 deficyt
+FROM unioned
+GROUP BY
+    station_id, trip_date, year, month_number, month_name, day_of_week, hour_of_day
