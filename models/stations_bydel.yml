@@ -1,0 +1,27 @@
+version: 2
+
+sources:
+  - name: stage
+    database: OSLO_CITY_BIKES
+    schema: STAGE
+    tables:
+      - name: bikes_stations
+      - name: bydel_boundaries
+
+models:
+  - name: stg_bydel_boundaries
+    columns:
+      - name: bydel_code
+        tests: [unique, not_null]
+      - name: geom
+        tests: [not_null]       # fails if a polygon could not be parsed
+
+  - name: int_stations_coords
+    columns:
+      - name: station_id
+        tests: [unique, not_null]
+
+  - name: int_stations_bydel
+    columns:
+      - name: station_id
+        tests: [unique, not_null]

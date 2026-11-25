@@ -9,3 +9,4 @@ sources:
     tables:
       - name: bikes_stations
       - name: station_status_snapshots
+      - name: bydel_boundaries
