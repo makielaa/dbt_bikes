@@ -21,3 +21,13 @@ CREATE OR REPLACE TABLE OSLO_CITY_BIKES.STAGE.BIKES_STATIONS (
     END_STATION_LATITUDE FLOAT,
     END_STATION_LONGITUDE FLOAT
 );
+
+-- creating table in Snowflake stage for geospatial Oslo data
+
+CREATE OR REPLACE TABLE OSLO_CITY_BIKES.STAGE.BYDEL_BOUNDARIES (
+    BYDEL_CODE VARCHAR(20),
+    BYDEL_NAME VARCHAR(100),
+    GEOM_GEOJSON VARCHAR
+);
+
+-- loading bydel_boundaries_csv file by Ingestion--> Load data into table
